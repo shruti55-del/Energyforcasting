@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Energy Consumption Forecasting</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- Header -->
+        <header>
+            <h1>⚡ Energy Consumption Forecasting</h1>
+            <p>Machine Learning Based Energy Prediction Dashboard</p>
+        </header>
+
+        <!-- Status Cards -->
+        <section class="cards">
+
+            <div class="card">
+                <h3>🤖 Model</h3>
+                <p id="modelName">Loading...</p>
+            </div>
+
+            <div class="card">
+                <h3>📊 Forecast Horizon</h3>
+                <p>7 Days</p>
+            </div>
+
+            <div class="card">
+                <h3>✅ System Status</h3>
+                <p id="status">Checking...</p>
+            </div>
+
+        </section>
+
+        <!-- Forecast Section -->
+        <section class="dashboard">
+
+            <div class="section-header">
+                <h2>Energy Consumption Dashboard</h2>
+                <p>Forecast and model information</p>
+            </div>
+
+            <div class="chart-container">
+                <h3>24-Hour Energy Forecast</h3>
+
+                <div class="chart-placeholder">
+        <canvas id="forecastChart"></canvas>
+    </div>
+
+            </div>
+
+            <div class="chart-container">
+                <h3>7-Day Energy Forecast</h3>
+
+            <div class="chart-placeholder">
+    <canvas id="weeklyForecastChart"></canvas>
+</div>
+            </div>
+
+        </section>
+
+        <!-- Prediction Section -->
+<section class="prediction-section">
+
+    <h2>⚡ Energy Consumption Prediction</h2>
+
+    <p class="prediction-description">
+        Enter the required energy features to get a prediction from the trained XGBoost model.
+    </p>
+    <div class="datetime-input">
+    <label for="predictionDateTime">Select Date & Time</label>
+    <input type="datetime-local" id="predictionDateTime">
+</div>
+
+    <div class="prediction-form">
+
+        <div class="input-group">
+            <label>Hour</label>
+            <input type="number" id="Hour" min="0" max="23" placeholder="e.g. 18">
+        </div>
+
+        <div class="input-group">
+            <label>Day</label>
+            <input type="number" id="Day" min="1" max="31" placeholder="e.g. 15">
+        </div>
+
+        <div class="input-group">
+            <label>Month</label>
+            <input type="number" id="Month" min="1" max="12" placeholder="e.g. 9">
+        </div>
+
+        <div class="input-group">
+            <label>Day of Week</label>
+           <select id="Day_of_Week">
+    <option value="0">Monday</option>
+    <option value="1">Tuesday</option>
+    <option value="2">Wednesday</option>
+    <option value="3">Thursday</option>
+    <option value="4">Friday</option>
+    <option value="5">Saturday</option>
+    <option value="6">Sunday</option>
+</select>
+        </div>
+
+        <div class="input-group">
+            <label>Is Weekend</label>
+            <select id="Is_Weekend">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label>Previous Hour<span class="optional-label">Historical</span></label>
+            <input type="number" step="any" id="Lag_1" placeholder="Previous hour">
+        </div>
+
+        <div class="input-group">
+            <label>Previous Day<span class="optional-label">Historical</span></label>
+            <input type="number" step="any" id="Lag_24" placeholder="Previous day">
+        </div>
+
+        <div class="input-group">
+            <label>Previous Week <span class="optional-label">Historical</span></label>
+            <input type="number" step="any" id="Lag_168" placeholder="Previous week">
+        </div>
+
+        <div class="input-group">
+            <label>3-Hour Average <span class="optional-label">Historical</span></label>
+            <input type="number" step="any" id="Rolling_3" placeholder="3-hour average">
+        </div>
+
+        <div class="input-group">
+            <label>24-Hour Average<span class="optional-label">Historical</span></label>
+            <input type="number" step="any" id="Rolling_24" placeholder="24-hour average">
+        </div>
+
+        <div class="input-group">
+            <label>7-Day Average <span class="optional-label">Historical</span></label>
+            <input type="number" step="any" id="Rolling_168" placeholder="168-hour average">
+        </div>
+
+    </div>
+
+     <div class="prediction-buttons">
+
+    <button onclick="fillSampleValues()" class="sample-btn">
+        Fill Sample Values
+    </button>
+
+    <button onclick="predictEnergy()" class="predict-btn">
+        Predict Energy Consumption
+    </button>
+
+</div>
+
+    <div id="predictionResult" class="prediction-result">
+
+    <div class="result-icon">⚡</div>
+
+    <div class="result-content">
+        <h3>Predicted Energy Consumption</h3>
+        <p id="predictionValue">Enter values and click Predict.</p>
+    </div>
+
+</div>
+
+</section>
+
+        <!-- Model Information -->
+        <section class="model-info">
+
+            <h2>Model Information</h2>
+
+            <div class="info-box">
+
+                <p>
+                    <strong>Model:</strong>
+                    <span id="modelInfo">Loading...</span>
+                </p>
+
+                <p>
+                    <strong>Features:</strong>
+                </p>
+
+                <ul id="featureList">
+                    <li>Loading...</li>
+                </ul>
+
+            </div>
+
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>Energy Consumption Forecasting | Machine Learning Project</p>
+        </footer>
+
+    </div>
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('static', filename='forecast.js') }}"></script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
